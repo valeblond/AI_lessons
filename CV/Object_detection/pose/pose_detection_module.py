@@ -62,7 +62,7 @@ class pose_detector():
 def main():
     prev_time = 0
     
-    cap = cv2.VideoCapture("data/video5.mp4") # read a video from the file location
+    cap = cv2.VideoCapture("data/video6.mp4") # read a video from the file location
     
     detector = pose_detector()
     
