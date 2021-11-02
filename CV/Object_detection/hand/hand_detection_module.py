@@ -2,6 +2,8 @@
 """
 Created on Sat Oct 23 22:53:17 2021
 
+Hand detection
+
 @author: Valery Burau
 """
 
