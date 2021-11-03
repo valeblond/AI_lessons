@@ -14,7 +14,7 @@ import mediapipe as mp
 import time
 
 
-class face_detector():
+class Face_Detector():
     def __init__(self, detection_con=0.5, model_sel=0):
         self.detection_con = detection_con
         self.model_sel = model_sel
@@ -23,7 +23,7 @@ class face_detector():
         self.face = self.mp_face.FaceDetection(self.detection_con, self.model_sel) # take only RGB images
         self.mp_draw = mp.solutions.drawing_utils # draw the lines between the landmarks
         
-    def Find_Face(self, img, draw=True):
+    def find_Face(self, img, draw=True):
         imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # convert the image to rgb
         self.results = self.face.process(imgRGB) # process the frames
 
@@ -37,7 +37,7 @@ class face_detector():
                 bound_boxes.append([face_id, bound_box, detection.score])        
                     
                 if draw:
-                    img = self.Fancy_Draw(img, bound_box)
+                    img = self.fancy_Draw(img, bound_box)
                 
                     cv2.putText(img, f'{int(detection.score[0] * 100)}%', 
                             (bound_box[0], bound_box[1] - 20), cv2.FONT_HERSHEY_PLAIN,
@@ -45,7 +45,7 @@ class face_detector():
                 
         return img, bound_boxes
 
-    def Fancy_Draw(self, img, bbox, l=30, t=5):
+    def fancy_Draw(self, img, bbox, l=30, t=5):
         x, y, w, h = bbox
         x1, y1 = x + w, y + h
         
@@ -72,12 +72,11 @@ def main():
     
     cap = cv2.VideoCapture("data/video6.mp4") # read a video from the file location
     
-    detector = face_detector()
+    detector = Face_Detector()
 
     while True:
         success, img = cap.read()
-        img, bound_boxes = detector.Find_Face(img)
-        # lm_list = detector.Find_Position(img)
+        img, bound_boxes = detector.find_Face(img)
 
         curr_time = time.time()
         fps = 1/(curr_time-prev_time)

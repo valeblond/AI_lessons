@@ -13,7 +13,7 @@ import cv2
 import mediapipe as mp
 import time
 
-class pose_detector():
+class Pose_Detector():
     def __init__(self, mode=False, complexity=1, smooth_lm=2, enable_segm=False,
                  smooth_segm=True, detection_con=0.5, track_con=0.5):
         self.mode = mode
@@ -30,7 +30,7 @@ class pose_detector():
                                        self.smooth_segm, self.detection_con, self.track_con) # take only RGB images
         self.mp_draw = mp.solutions.drawing_utils # draw the lines between the landmarks
    
-    def Find_Pose(self, img, draw=True):
+    def find_Pose(self, img, draw=True):
         imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # convert the image to rgb
         self.results = self.pose.process(imgRGB) # process the frames
         
@@ -43,7 +43,7 @@ class pose_detector():
         return img
   
     
-    def Find_Position(self, img, hand_nb=0, draw=True):
+    def find_Position(self, img, hand_nb=0, draw=True):
         lm_list = []
         
         # Find pose landmarks
@@ -64,12 +64,12 @@ def main():
     
     cap = cv2.VideoCapture("data/video6.mp4") # read a video from the file location
     
-    detector = pose_detector()
+    detector = Pose_Detector()
     
     while True:
         success, img = cap.read()
-        img = detector.Find_Pose(img)
-        lm_list = detector.Find_Position(img)
+        img = detector.find_Pose(img)
+        lm_list = detector.find_Position(img)
         
         if (len(lm_list) != 0):
             print(lm_list[4])

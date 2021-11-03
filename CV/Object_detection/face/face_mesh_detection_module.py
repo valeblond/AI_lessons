@@ -14,7 +14,7 @@ import mediapipe as mp
 import time
 
 
-class face_mesh_detector():
+class Face_Mesh_Detector():
     def __init__(self, static_mode=False, max_faces=1, ref_lms=False, detection_con=0.5, track_con=0.5):
         self.static_mode = static_mode
         self.max_faces = max_faces
@@ -28,7 +28,7 @@ class face_mesh_detector():
         self.mp_draw = mp.solutions.drawing_utils # draw the lines between the landmarks
         self.draw_spec = self.mp_draw.DrawingSpec(thickness=1, circle_radius=2) # set the parameters of lines and circles sizes
        
-    def Find_Face_Mesh(self, img, draw=True):
+    def find_Face_Mesh(self, img, draw=True):
         self.imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # convert the image to rgb
         self.results = self.face_mesh.process(self.imgRGB) # process the frames
 
@@ -54,11 +54,11 @@ def main():
     
     cap = cv2.VideoCapture("data/video6.mp4") # read a video from the file location
     
-    detector = face_mesh_detector(max_faces=4)
+    detector = Face_Mesh_Detector(max_faces=4)
 
     while True:
         success, img = cap.read()
-        img, faces = detector.Find_Face_Mesh(img)
+        img, faces = detector.find_Face_Mesh(img)
 
         curr_time = time.time()
         fps = 1/(curr_time-prev_time)

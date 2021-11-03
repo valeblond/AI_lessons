@@ -12,7 +12,7 @@ import mediapipe as mp
 import time
 
 
-class hand_detector():
+class Hand_Detector():
     def __init__(self, mode=False, max_hands=2, complexity=1, detection_con=0.5, track_con=0.5):
         self.mode = mode
         self.max_hands = max_hands
@@ -25,7 +25,7 @@ class hand_detector():
         self.hands = self.mp_hands.Hands(self.mode, self.max_hands, self.complexity, self.detection_con, self.track_con) # take only RGB images
         self.mp_draw = mp.solutions.drawing_utils # draw the lines between the landmarks
 
-    def Find_Hands(self, img, draw=True):
+    def find_Hands(self, img, draw=True):
         imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # convert the image to rgb
         self.results = self.hands.process(imgRGB) # process the frames
         # print(results.multi_hand_landmarks) # checking wether it's sth detected (hands)
@@ -40,7 +40,7 @@ class hand_detector():
     
         return img
     
-    def Find_Position(self, img, hand_nb=0, draw=True):
+    def find_Position(self, img, hand_nb=0, draw=True):
         lm_list = []
         
         # Find hands
@@ -64,12 +64,12 @@ def main():
     
     cap = cv2.VideoCapture(0) # read a live image from the camera nb. 0
     
-    detector = hand_detector()
+    detector = Hand_Detector()
     
     while True:
         success, img = cap.read()
-        img = detector.Find_Hands(img)
-        lm_list = detector.Find_Position(img)
+        img = detector.find_Hands(img)
+        lm_list = detector.find_Position(img)
         
         if (len(lm_list) != 0):
             print(lm_list[4])
