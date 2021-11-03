@@ -4,6 +4,10 @@ Created on Tue Nov  2 21:03:41 2021
 
 Volume control by hand
 
+Pycaw library from https://github.com/AndreMiras/pycaw
+
+From here: https://www.youtube.com/watch?v=01sAkU_NvOY&list=PL6P8rMfgAhUIm4cUDzYp6RiOcR9rS4WkP&index=10&t=1220s&ab_channel=freeCodeCamp.org
+
 @author: valer
 """
 
