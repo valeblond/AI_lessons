@@ -38,7 +38,9 @@ volume = cast(interface, POINTER(IAudioEndpointVolume))
 vol_range = volume.GetVolumeRange()
 min_vol  = vol_range[0]
 max_vol  = vol_range[1]
-volume.SetMasterVolumeLevel(-20.0, None)
+vol = 0
+vol_bar = 400
+vol_perc = 0
 
 while True:
     success, img = cap.read()
@@ -61,16 +63,25 @@ while True:
         # Hand range is from ~20 to 150
         # Volume range from the 'pycaw' library is from -65 to 0
         
-        vol = np.interp(line_len, [20, 150], [min_vol, max_vol]) # change the range
+        vol = np.interp(line_len, [20, 140], [min_vol, max_vol]) # change the range depending on the edge line values
+        vol_bar = np.interp(line_len, [20, 140], [400, 150]) # change the range depending on the edge bar values
+        vol_perc = np.interp(line_len, [20, 140], [0, 100]) # change the range depending on the percentage values
         print(vol)
-    
+        
+        volume.SetMasterVolumeLevel(vol, None) # set the computer volume
+        
+    # y axis starts from the top
+    cv2.rectangle(img, (50, 150), (85, 400), (105, 105, 105), 3)
+    cv2.rectangle(img, (50, int(vol_bar)), (85, 400), (105, 105, 105), cv2.FILLED)
+    cv2.putText( img, str(int(vol_perc)) + ' %', (40, 450), 
+                cv2.FONT_HERSHEY_PLAIN, 2, (105, 105, 105), 3 )
     
     curr_time = time.time()
     fps = 1/(curr_time-prev_time)
     prev_time = curr_time
     
-    cv2.putText( img, str(int(fps)), (10,70), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,255), 3 )
+    cv2.putText( img, str(int(fps)), (10,70), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), 3 )
     
     cv2.imshow("Image", img)
-    cv2.waitKey(1)
+    cv2.waitKey(1) 
 
